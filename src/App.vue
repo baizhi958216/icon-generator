@@ -37,6 +37,10 @@
       />
     </div>
 
+    <div class="gendownload"  v-if="src">
+      <n-button type="info" strong secondary round @click="adownload">下载</n-button>
+    </div>
+
     <div class="codeview">
       <n-code :code="infcode" show-line-numbers />
     </div>
@@ -99,6 +103,9 @@ const gen512 = () => {
   iwidth.value = 512
   iheight.value = 512
 }
+const adownload = () => {
+  alert('还没做好呢:D')
+}
 </script>
 
 <style scoped>
@@ -114,6 +121,10 @@ const gen512 = () => {
   flex-wrap: nowrap;
   justify-content: space-between;
   height: 100vh;
+}
+
+.codeview {
+  color: rgb(76, 161, 240);
 }
 
 .header,
