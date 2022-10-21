@@ -1,31 +1,82 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="header">
+    <n-gradient-text type="info"> ICON Generator </n-gradient-text>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <div class="container">
+    <div class="upload">
+      <n-upload directory-dnd :max="1" accept=".png" :on-change="aupload">
+        <n-upload-dragger>
+          <div style="margin-bottom: 12px">
+            <n-icon size="48" :depth="3">
+              <archive-icon />
+            </n-icon>
+          </div>
+          <n-text style="font-size: 16px">
+            点击或者拖动png格式图片到该区域
+          </n-text>
+        </n-upload-dragger>
+      </n-upload>
+    </div>
+
+    <div class="genclick" v-if="src">
+      <n-button type="info" ghost @click="gen"> 生成 </n-button>
+    </div>
+
+    <div class="genview" v-if="src">
+      <n-image width="300" :src="imgblobview" />
+    </div>
+  </div>
+  <div class="footer">
+    <n-card hoverable>
+      <n-gradient-text :size="14" type="info">
+        Created by baizhi958216 with Vue && Vite && Naive UI
+      </n-gradient-text>
+    </n-card>
+  </div>
 </template>
 
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import {
+  NUpload,
+  NUploadDragger,
+  NIcon,
+  NText,
+  NButton,
+  NGradientText,
+  NImage,
+  NCard,
+} from 'naive-ui'
+import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
+const src = ref('')
+const aupload = (e: any) => {
+  src.value = window.URL.createObjectURL(e.file.file)
+}
+const imgblobview = computed(() => {
+  return src.value
+})
+const gen = () => {
+  console.log(src.value)
+}
+</script>
+
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+.header {
+  font-size: 30px;
+  user-select: none;
+  text-align: center;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.footer {
+  text-align: center;
+  position: absolute;
+  top: 100%;
+  transform: translateY(-100%);
+  width: 100vw;
 }
 </style>
