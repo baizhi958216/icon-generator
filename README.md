@@ -1,8 +1,5 @@
-# 从PNG生成ICO  
-<br>
-
-## 用于制作个性化硬盘图标😄  
-<br>
+# 从图片生成ICO  
+用于制作个性化硬盘图标😄  
 <br>
 
 # Vue 3 + TypeScript + Vite
