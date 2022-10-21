@@ -1,11 +1,11 @@
 <template>
-  <div class="header">
-    <n-gradient-text type="info"> ICON Generator </n-gradient-text>
-  </div>
-
   <div class="container">
+    <div class="header">
+      <n-gradient-text type="info"> ICON Generator </n-gradient-text>
+    </div>
+
     <div class="upload">
-      <n-upload directory-dnd :max="1" accept=".png" :on-change="aupload">
+      <n-upload directory-dnd :on-change="aupload" :show-file-list="false">
         <n-upload-dragger>
           <div style="margin-bottom: 12px">
             <n-icon size="48" :depth="3">
@@ -29,16 +29,25 @@
     </div>
 
     <div class="genview" v-if="src">
-      <n-image :width="iwidth" :height="iheight" :src="imgblobview" />
+      <n-image
+        preview-disabled
+        :width="iwidth"
+        :height="iheight"
+        :src="imgblobview"
+      />
     </div>
-  </div>
 
-  <div class="footer">
-    <n-card hoverable>
-      <n-gradient-text :size="14" type="info">
-        Created by baizhi958216 with Vue && Vite && Naive UI
-      </n-gradient-text>
-    </n-card>
+    <div class="codeview">
+      <n-code :code="infcode" show-line-numbers />
+    </div>
+
+    <div class="footer">
+      <n-card hoverable>
+        <n-gradient-text :size="14" type="info">
+          Created by baizhi958216 with Vue && Vite && Naive UI
+        </n-gradient-text>
+      </n-card>
+    </div>
   </div>
 </template>
 
@@ -53,6 +62,7 @@ import {
   NGradientText,
   NImage,
   NCard,
+  NCode,
 } from 'naive-ui'
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
 const src = ref('')
@@ -64,6 +74,7 @@ const aupload = (e: any) => {
 const imgblobview = computed(() => {
   return src.value
 })
+const infcode = `Autorun.inf\n\`\`\`\n[Autorun]\nicon=*.ico\n\`\`\``
 const gen16 = () => {
   iwidth.value = 16
   iheight.value = 16
@@ -93,27 +104,33 @@ const gen512 = () => {
 <style scoped>
 .header {
   font-size: 30px;
-  user-select: none;
   text-align: center;
 }
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: no-wrap;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   height: 100vh;
-  justify-content: space-around;
-  overflow: scroll;
 }
+
+.header,
+.upload,
+.genclick,
+.genview,
+.footer {
+  user-select: none;
+}
+
 .genclick {
   display: flex;
   flex-wrap: wrap;
 }
+
 .footer {
   text-align: center;
-  position: fixed;
-  top: 100%;
-  transform: translateY(-100%);
   width: 100vw;
 }
 </style>
