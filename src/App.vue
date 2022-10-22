@@ -42,7 +42,8 @@
     </div>
 
     <div class="codeview">
-      <n-code :code="infcode" show-line-numbers />
+      Autorun.inf
+      <n-code :code="infcode" show-line-numbers :hljs="hljs" language="ini"/>
     </div>
 
     <div class="footer">
@@ -69,16 +70,24 @@ import {
   NCode,
 } from 'naive-ui'
 import { ArchiveOutline as ArchiveIcon } from '@vicons/ionicons5'
+import hljs from 'highlight.js/lib/core'
+import ini from 'highlight.js/lib/languages/ini'
+
 const src = ref('')
 const iwidth = ref(128)
 const iheight = ref(128)
+hljs.registerLanguage('ini', ini)
+
 const aupload = (e: any) => {
   src.value = window.URL.createObjectURL(e.file.file)
 }
+
 const imgblobview = computed(() => {
   return src.value
 })
-const infcode = `Autorun.inf\n\`\`\`\n[Autorun]\nicon=*.ico\n\`\`\``
+
+const infcode = `[Autorun]\nicon=*.ico`
+
 const gen16 = () => {
   iwidth.value = 16
   iheight.value = 16
