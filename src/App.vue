@@ -133,6 +133,7 @@ const adownload = () => {
 .genview,
 .footer {
   user-select: none;
+  margin: 30px;
 }
 
 .genclick {
