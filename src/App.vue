@@ -76,7 +76,7 @@ import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
 
 const src = ref('')
-const iconName = ref('')
+const iconName = ref('*')
 const iwidth = ref(128)
 const iheight = ref(128)
 hljs.registerLanguage('ini', ini)
@@ -90,7 +90,7 @@ const imgblobview = computed(() => {
   return src.value
 })
 
-const infcode = `[Autorun]\nicon=*.ico`
+const infcode = `[Autorun]\nicon=${iconName.value}.ico`
 
 const gen16 = () => {
   iwidth.value = 16
@@ -138,7 +138,7 @@ const image2Canvas = async (imageurl: string): Promise<HTMLCanvasElement> => {
 }
 
 function blobCallback(iconName: string) {
-  return function (b) {
+  return function (b:any) {
     var a = document.createElement('a')
     document.body.appendChild(a)
     a.style.display = 'none'
