@@ -143,8 +143,6 @@ function blobCallback(iconName: string) {
     document.body.appendChild(a)
     a.style.display = 'none'
     a.download = iconName + '.ico'
-    console.log(b);
-    
     a.href = window.URL.createObjectURL(b)
     a.click()
   }
