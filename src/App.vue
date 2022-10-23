@@ -37,13 +37,15 @@
       />
     </div>
 
-    <div class="gendownload"  v-if="src">
-      <n-button type="info" strong secondary round @click="adownload">下载</n-button>
+    <div class="gendownload" v-if="src">
+      <n-button type="info" strong secondary round @click="adownload"
+        >下载</n-button
+      >
     </div>
 
     <div class="codeview">
       Autorun.inf
-      <n-code :code="infcode" show-line-numbers :hljs="hljs" language="ini"/>
+      <n-code :code="infcode" show-line-numbers :hljs="hljs" language="ini" />
     </div>
 
     <div class="footer">
@@ -74,12 +76,14 @@ import hljs from 'highlight.js/lib/core'
 import ini from 'highlight.js/lib/languages/ini'
 
 const src = ref('')
+const iconName = ref('')
 const iwidth = ref(128)
 const iheight = ref(128)
 hljs.registerLanguage('ini', ini)
 
 const aupload = (e: any) => {
   src.value = window.URL.createObjectURL(e.file.file)
+  iconName.value = e.file.name.split('.')[0]
 }
 
 const imgblobview = computed(() => {
@@ -112,8 +116,38 @@ const gen512 = () => {
   iwidth.value = 512
   iheight.value = 512
 }
-const adownload = () => {
-  alert('还没做好呢:D')
+
+const adownload = async () => {
+  let canvas = await image2Canvas(src.value)
+  canvas.toBlob(
+    blobCallback(iconName.value),
+    'image/vnd.microsoft.icon',
+    '-moz-parse-options:format=bmp;bpp=32'
+  )
+}
+
+const image2Canvas = async (imageurl: string): Promise<HTMLCanvasElement> => {
+  let canvas = document.createElement('canvas')
+  let ctx = canvas.getContext('2d')
+  let img = new Image()
+  img.src = imageurl
+  canvas.width = iwidth.value
+  canvas.height = iheight.value
+  ctx?.drawImage(img, 0, 0, iwidth.value, iheight.value)
+  return canvas
+}
+
+function blobCallback(iconName: string) {
+  return function (b) {
+    var a = document.createElement('a')
+    document.body.appendChild(a)
+    a.style.display = 'none'
+    a.download = iconName + '.ico'
+    console.log(b);
+    
+    a.href = window.URL.createObjectURL(b)
+    a.click()
+  }
 }
 </script>
 
