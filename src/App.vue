@@ -79,18 +79,18 @@ const src = ref('')
 const iconName = ref('*')
 const iwidth = ref(128)
 const iheight = ref(128)
+const infcode = ref(`[Autorun]\nicon=*.ico`)
 hljs.registerLanguage('ini', ini)
 
 const aupload = (e: any) => {
   src.value = window.URL.createObjectURL(e.file.file)
   iconName.value = e.file.name.split('.')[0]
+  infcode.value = `[Autorun]\nicon=${iconName.value}.ico`
 }
 
 const imgblobview = computed(() => {
   return src.value
 })
-
-const infcode = `[Autorun]\nicon=${iconName.value}.ico`
 
 const gen16 = () => {
   iwidth.value = 16
