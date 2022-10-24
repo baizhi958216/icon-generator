@@ -20,12 +20,12 @@
     </div>
 
     <div class="genclick" v-if="src">
-      <n-button type="info" round ghost @click="gen16"> 16 x 16 </n-button>
-      <n-button type="info" round ghost @click="gen32"> 32 x 32 </n-button>
-      <n-button type="info" round ghost @click="gen64"> 64 x 64 </n-button>
-      <n-button type="info" round ghost @click="gen128"> 128 x 128 </n-button>
-      <n-button type="info" round ghost @click="gen256"> 256 x 256 </n-button>
-      <n-button type="info" round ghost @click="gen512"> 512 x 512 </n-button>
+      <n-button class="gentype" type="info" round ghost @click="gen16"> 16 x 16 </n-button>
+      <n-button class="gentype" type="info" round ghost @click="gen32"> 32 x 32 </n-button>
+      <n-button class="gentype" type="info" round ghost @click="gen64"> 64 x 64 </n-button>
+      <n-button class="gentype" type="info" round ghost @click="gen128"> 128 x 128 </n-button>
+      <n-button class="gentype" type="info" round ghost @click="gen256"> 256 x 256 </n-button>
+      <n-button class="gentype" type="info" round ghost @click="gen512"> 512 x 512 </n-button>
     </div>
 
     <div class="genview" v-if="src">
@@ -180,6 +180,13 @@ function blobCallback(iconName: string) {
 .genclick {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 50vw;
+}
+
+.gentype{
+  margin: 10px;
 }
 
 .footer {
