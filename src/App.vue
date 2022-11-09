@@ -29,18 +29,11 @@
     </div>
 
     <div class="genview" v-if="src">
-      <n-image
-        preview-disabled
-        :width="iwidth"
-        :height="iheight"
-        :src="imgblobview"
-      />
+      <n-image preview-disabled :width="iwidth" :height="iheight" :src="imgblobview" />
     </div>
 
     <div class="gendownload" v-if="src">
-      <n-button type="info" strong secondary round @click="adownload"
-        >下载</n-button
-      >
+      <n-button type="info" strong secondary round @click="adownload">下载</n-button>
     </div>
 
     <div class="codeview">
@@ -117,16 +110,28 @@ const gen512 = () => {
   iheight.value = 512
 }
 
-const adownload = async () => {
-  let canvas = await image2Canvas(src.value)
-  canvas.toBlob(
-    blobCallback(iconName.value),
-    'image/vnd.microsoft.icon',
-    '-moz-parse-options:format=bmp;bpp=32'
-  )
+const adownload = () => {
+  let canvas = image2Canvas(src.value)
+  if (canvas.width > 256) {
+    canvas.toBlob(
+      blob => {
+        blobCallback(blob!, iconName.value)
+      },
+      'image/bmp',
+      1
+    )
+  } else {
+    canvas.toBlob(
+      blob => {
+        blobCallback(blob!, iconName.value)
+      },
+      'image/vnd.microsoft.icon',
+      '-moz-parse-options:format=bmp;bpp=32'
+    )
+  }
 }
 
-const image2Canvas = async (imageurl: string): Promise<HTMLCanvasElement> => {
+const image2Canvas = (imageurl: string) => {
   let canvas = document.createElement('canvas')
   let ctx = canvas.getContext('2d')
   let img = new Image()
@@ -137,15 +142,13 @@ const image2Canvas = async (imageurl: string): Promise<HTMLCanvasElement> => {
   return canvas
 }
 
-function blobCallback(iconName: string) {
-  return function (b:any) {
-    var a = document.createElement('a')
-    document.body.appendChild(a)
-    a.style.display = 'none'
-    a.download = iconName + '.ico'
-    a.href = window.URL.createObjectURL(b)
-    a.click()
-  }
+const blobCallback = (blob: Blob, iconName: string) => {
+  var a = document.createElement('a')
+  document.body.appendChild(a)
+  a.style.display = 'none'
+  a.download = iconName + '.ico'
+  a.href = window.URL.createObjectURL(blob)
+  a.click()
 }
 </script>
 
@@ -185,7 +188,7 @@ function blobCallback(iconName: string) {
   width: 50vw;
 }
 
-.gentype{
+.gentype {
   margin: 10px;
 }
 
